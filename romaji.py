@@ -3,15 +3,31 @@ from selenium.webdriver.common.keys import Keys
 from time import sleep
 import os
 import sys
+import argparse
+import logging
+
+
+def def_params():
+   parser = argparse.ArgumentParser(
+             description="Script to create transcription from japana symbols to romaji i odwrotnie"
+   )
+   parser.add_argument('-l', "--loghami", action="store_true", help="set debug")
+   parser.add_argument('-s', '--sentence', help="sentence to romajing", required=True)
+   #parser.add_argument('', "", )
+   args = parser.parse_args()
+   if args.loghami:
+       logging.basicConfig(level=logging.DEBUG)
+       logging.debug("args:" + str(args))
+   return args
 
 
 def def_environment():
    path_to_dir = os.path.dirname(os.path.realpath(__file__))
-   #print("ścieszka do folderu:" + path_to_dir)
+   logging.debug("ścieszka do folderu:" + path_to_dir)
    os.environ["PATH"] += os.pathsep + path_to_dir
 
 
-def def_romaji(sentence):
+def def_romaji(sentence, loghami):
     options = webdriver.FirefoxOptions()
     options.add_argument('--headless')
     basic_url = "http://romaji.me/"
@@ -26,18 +42,18 @@ def def_romaji(sentence):
     sleep(1)
     textAreaOutput = driver.find_element_by_xpath('/html/body/table/tbody/tr/td[1]/div[4]/div[3]/div[2]/div/p/ruby[2]/rt')
     textOutput = textAreaOutput.text
-    print(textOutput)
+    logging.debug(textOutput)
     #do testow
-    #driver.save_screenshot('Romaji.png')
+    if loghami:
+        driver.save_screenshot('Romaji.png')
     driver.quit()
 
 
 def main():
-    if len(sys.argv) > 1:
-        sentence = str(sys.argv[1])
-        def_romaji(sentence)
-    else:
-        print("Coś nie tak z liczba argumentów, sprawdź listę argumentów skryptu")
+    args=def_params()
+    sentence = args.sentence
+    loghami = args.loghami
+    def_romaji(sentence, loghami)
 
 
 if __name__ == "__main__":
