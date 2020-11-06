@@ -4,10 +4,12 @@ from time import sleep
 import os
 import sys
 
+
 def def_environment():
    path_to_dir = os.path.dirname(os.path.realpath(__file__))
    #print("ścieszka do folderu:" + path_to_dir)
    os.environ["PATH"] += os.pathsep + path_to_dir
+
 
 def def_romaji(sentence):
     options = webdriver.FirefoxOptions()
@@ -29,12 +31,14 @@ def def_romaji(sentence):
     #driver.save_screenshot('Romaji.png')
     driver.quit()
 
+
 def main():
     if len(sys.argv) > 1:
         sentence = str(sys.argv[1])
         def_romaji(sentence)
     else:
         print("Coś nie tak z liczba argumentów, sprawdź listę argumentów skryptu")
+
 
 if __name__ == "__main__":
     def_environment()
