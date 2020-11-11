@@ -8,23 +8,22 @@ import logging
 
 
 def def_params():
-   parser = argparse.ArgumentParser(
-             description="Script to create transcription from japana symbols to romaji i odwrotnie"
-   )
-   parser.add_argument('-l', "--loghami", action="store_true", help="set debug")
-   parser.add_argument('-s', '--sentence', help="sentence to romajing", required=True)
-   #parser.add_argument('', "", )
-   args = parser.parse_args()
-   if args.loghami:
-       logging.basicConfig(level=logging.DEBUG)
-       logging.debug("args:" + str(args))
-   return args
+    parser = argparse.ArgumentParser(
+              description="Script to create transcription from japana symbols to romaji i odwrotnie"
+    )
+    parser.add_argument('-l', "--loghami", action="store_true", help="set debug", required=False)
+    parser.add_argument('-s', '--sentence', help="sentence to romajing", required=True)
+    args = parser.parse_args()
+    if args.loghami:
+        logging.basicConfig(level=logging.DEBUG)
+        logging.debug("args:" + str(args))
+    return args
 
 
 def def_environment():
-   path_to_dir = os.path.dirname(os.path.realpath(__file__))
-   logging.debug("ścieszka do folderu:" + path_to_dir)
-   os.environ["PATH"] += os.pathsep + path_to_dir
+    path_to_dir = os.path.dirname(os.path.realpath(__file__))
+    logging.debug("ścieszka do folderu:" + path_to_dir)
+    os.environ["PATH"] += os.pathsep + path_to_dir
 
 
 def def_romaji(sentence, loghami):
@@ -42,7 +41,7 @@ def def_romaji(sentence, loghami):
     sleep(1)
     textAreaOutput = driver.find_element_by_xpath('/html/body/table/tbody/tr/td[1]/div[4]/div[3]/div[2]/div/p/ruby[2]/rt')
     textOutput = textAreaOutput.text
-    logging.debug(textOutput)
+    print(textOutput) #wyświetla efekt programu w konsoli
     #do testow
     if loghami:
         driver.save_screenshot('Romaji.png')
