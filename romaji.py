@@ -28,7 +28,10 @@ def def_environment():
 
 def def_romaji(sentence, loghami):
     options = webdriver.FirefoxOptions()
-    options.add_argument('--headless')
+    if loghami:
+        options.headless=False
+    else:
+        options.healess=True
     basic_url = "http://romaji.me/"
     driver = webdriver.Firefox(options=options)
     driver.get(basic_url)
